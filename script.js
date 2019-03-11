@@ -85,13 +85,20 @@ var raffles = {
         "url": "https://www.solebox.com/en/Footwear/"
     }
 };
+
 /* Global vars */
-var selectedCountry = "";
+var global = {
+    selectedCountry: ""
+};
 
 /* Utilidad */
-let searchClass = function (className) {
-    return document.getElementsByClassName(className);
-};
+let Utils = function () {
+    return {
+        searchClass: function (className) {
+            return document.getElementsByClassName(className);
+        }
+    }
+}();
 
 /**
  * Crear primera carta
@@ -103,7 +110,7 @@ let loadFirstCard = function () {
         text += shoe[element] + " \n";
     });
 
-    searchClass('cardText')[0].innerHTML = text;
+    Utils.searchClass('cardText')[0].innerHTML = text;
 }();
 
 /**
@@ -111,7 +118,7 @@ let loadFirstCard = function () {
  * @param {*} countries 
  */
 let loadElementsToHtml = function (countries) {
-    searchClass('menuItems')[0].innerHTML = function () {
+    Utils.searchClass('menuItems')[0].innerHTML = function () {
         let html = "";
 
         countries.forEach(country => {
@@ -126,10 +133,10 @@ let loadElementsToHtml = function (countries) {
  * Añadir evento a los elementos <li> > <a>
  */
 let loadEventsToHtml = function () {
-    searchClass('menuItems')[0].childNodes.forEach(child => {
-        console.log(child.childNodes[0]);
+    Utils.searchClass('menuItems')[0].childNodes.forEach(child => {
         child.childNodes[0].addEventListener('click', function () {
-            selectedCountry = this.id;
+            global.selectedCountry = this.id;
+            console.log(global);
         });
     });
 };
