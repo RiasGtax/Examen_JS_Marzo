@@ -164,7 +164,20 @@ let loadRaffles = function () {
     });
 };
 
+/**
+ * Crear estructura HTML para cada raffle
+ * @param {*} raffle 
+ */
 let getRaffleCard = function (raffle) {
+
+    function checkIfRaffleClosed(isClosed) {
+        if(isClosed !== 'closed') {
+            return `<p><a class="btn btn-success" href="${raffle.url}">Enter Raffle</a></p>`;
+        } else {
+            return `<p><a class="btn btn-danger">Closed</a></p>`;
+        }
+    }
+
     return `<div class="card" style="width: 18rem;">
                 <img class="raffleLogo" src="${raffle.logo}">
                 <div class="card-body">
@@ -174,7 +187,7 @@ let getRaffleCard = function (raffle) {
                     <p>${raffle.Sizes}</p>
                     <p>${raffle.Opens}</p>
                     <p>${raffle.Closes}</p>
-                    <p><a href="${raffle.url}">Web</a></p>
+                    ${checkIfRaffleClosed(raffle.Closes)}
                 </div>
             </div>`
 };
