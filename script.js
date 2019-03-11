@@ -170,26 +170,26 @@ let getRaffleCard = function (raffle, raffleName) {
     }
 
     function checkIfInRaffle(raffleName) {
-        if (window.localStorage.raffles.indexOf(raffleName) === -1) {
-            return `<p id="${raffleName}" class="raffleButton">Mark as entered</p>`;
+        if (window.localStorage.raffles.indexOf(raffleName.replace(/ /g, "_")) === -1) {
+            return `<a id="${raffleName}" class="raffleButton" href="#">Mark as entered</a>`;
         } else {
-            return `<p id="${raffleName}" class="raffleButton">Already in the raffle</p>`;
+            return `<a id="${raffleName}" class="raffleButton" href="#">Already in the raffle</a>`;
         }
     }
 
     return `<div class="card" style="width: 18rem;">
-        <img class="raffleLogo" src="${raffle.logo}">
-        <div class="card-body">
-            <h5 class="card-title">${raffle.collection}</h5>
-            <p>${raffle.country}</p>
-            <p>${raffle.purchase}</p>
-            <p>${raffle.Sizes}</p>
-            <p>${raffle.Opens}</p>
-            <p>${raffle.Closes}</p>
-            ${checkIfRaffleClosed(raffle.Closes)}
-            ${checkIfInRaffle(raffleName)}
-        </div>
-    </div>`
+            <img class="raffleLogo" src="${raffle.logo}">
+            <div class="card-body">
+                <h5 class="card-title">${raffle.collection}</h5>
+                <p>${raffle.country}</p>
+                <p>${raffle.purchase}</p>
+                <p>${raffle.Sizes}</p>
+                <p>${raffle.Opens}</p>
+                <p>${raffle.Closes}</p>
+                ${checkIfRaffleClosed(raffle.Closes)}
+                ${checkIfInRaffle(raffleName)}
+            </div>
+        </div>`
 };
 
 /**
@@ -198,11 +198,10 @@ let getRaffleCard = function (raffle, raffleName) {
 let loadRaffleButtonEvent = function () {
     for (let i = 0; i < Utils.searchClass('raffleButton').length; i++) {
         Utils.searchClass('raffleButton')[i].addEventListener('click', function () {
-            if (window.localStorage.raffles.indexOf(this.id) === -1) {
-                window.localStorage.raffles = JSON.stringify(JSON.parse(window.localStorage.raffles).push(this.id));
+            if (window.localStorage.raffles.indexOf(this.id.replace(/ /g, "_")) === -1) {
+                window.localStorage.raffles +=  this.id.replace(/ /g, "_") + " ";
             } else {
-                let parsed = JSON.parse(window.localStorage.raffles);
-                window.localStorage.raffles = JSON.stringify(parsed.slice(parsed.indexOf(this.id), 1));
+                window.localStorage.raffles = window.localStorage.raffles.replace(this.id.replace(/ /g, "_"), '');
             }
         });
     }
@@ -221,7 +220,7 @@ let loadRaffles = function () {
 
 /* FLUJO */
 new function () {
-    if (window.localStorage.raffles === undefined) window.localStorage.raffles = [];
+    if (window.localStorage.raffles === undefined) window.localStorage.raffles = '';
 
     loadFirstCard();
     loadMenuFromData();
