@@ -8,7 +8,6 @@ var shoe = {
 };
 
 var raffles = {
-
     "Antonia Milano": {
         "logo": "https://www.soleretriever.com/wp-content/uploads/2018/04/AntoniaMilano.jpg",
         "country": "Italy",
@@ -86,14 +85,65 @@ var raffles = {
         "url": "https://www.solebox.com/en/Footwear/"
     }
 };
+/* Global vars */
+var selectedCountry = "";
 
-/* Primera carta */
-let loadFirstCard = function() {
+/* Utilidad */
+let searchClass = function (className) {
+    return document.getElementsByClassName(className);
+};
+
+/**
+ * Crear primera carta
+ */
+let loadFirstCard = function () {
     let text = "\n";
 
     Object.keys(shoe).forEach(element => {
-        text = text + shoe[element] + " \n";
+        text += shoe[element] + " \n";
     });
 
-    document.getElementsByClassName('cardText')[0].innerHTML = text;
+    searchClass('cardText')[0].innerHTML = text;
+}();
+
+/**
+ * Cargar datos (lista) al HTML
+ * @param {*} countries 
+ */
+let loadElementsToHtml = function (countries) {
+    searchClass('menuItems')[0].innerHTML = function () {
+        let html = "";
+
+        countries.forEach(country => {
+            html += `<li><a id="${country}" href="#">${country}</a></li>`;
+        });
+
+        return html;
+    }();
+};
+
+/**
+ * Añadir evento a los elementos <li> > <a>
+ */
+let loadEventsToHtml = function () {
+    searchClass('menuItems')[0].childNodes.forEach(child => {
+        console.log(child.childNodes[0]);
+        child.childNodes[0].addEventListener('click', function () {
+            selectedCountry = this.id;
+        });
+    });
+};
+
+/**
+ * Obtener datos
+ */
+let loadMenuFromData = function () {
+    let countries = [];
+
+    Object.keys(raffles).forEach(element => {
+        if (countries.indexOf(raffles[element]['country']) === -1) countries.push(raffles[element]['country']);
+    });
+
+    loadElementsToHtml(countries);
+    loadEventsToHtml();
 }();
