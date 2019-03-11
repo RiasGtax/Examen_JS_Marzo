@@ -168,8 +168,13 @@ let getRaffleCard = function (raffle) {
     return `<div class="card" style="width: 18rem;">
                 <img class="raffleLogo" src="${raffle.logo}">
                 <div class="card-body">
-                    <h5 class="card-title"></h5>
-                    <p></p>
+                    <h5 class="card-title">${raffle.collection}</h5>
+                    <p>${raffle.country}</p>
+                    <p>${raffle.purchase}</p>
+                    <p>${raffle.Sizes}</p>
+                    <p>${raffle.Opens}</p>
+                    <p>${raffle.Closes}</p>
+                    <p><a href="${raffle.url}">Web</a></p>
                 </div>
             </div>`
 };
