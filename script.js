@@ -75,7 +75,7 @@ var raffles = {
     },
 
     "Solebox": {
-        "logo": "https://www.soleretriever.com/wp-content/uploads/2018/04/SoleBox.jpg'git",
+        "logo": "https://www.soleretriever.com/wp-content/uploads/2018/04/SoleBox.jpg",
         "country": "Germany",
         "purchase": "In-Store/Online",
         "collection": "Post and Collect",
@@ -111,7 +111,7 @@ let loadFirstCard = function () {
     });
 
     Utils.searchClass('cardText')[0].innerHTML = text;
-}();
+};
 
 /**
  * Cargar datos (lista) al HTML
@@ -153,4 +153,30 @@ let loadMenuFromData = function () {
 
     loadElementsToHtml(countries);
     loadEventsToHtml();
+};
+
+/**
+ * Carga las cartas de cada raffle
+ */
+let loadRaffles = function () {
+    Object.keys(raffles).forEach(raffle => {
+        Utils.searchClass('raffleContainer')[0].innerHTML += getRaffleCard(raffles[raffle]);
+    });
+};
+
+let getRaffleCard = function (raffle) {
+    return `<div class="card" style="width: 18rem;">
+                <img class="raffleLogo" src="${raffle.logo}">
+                <div class="card-body">
+                    <h5 class="card-title"></h5>
+                    <p></p>
+                </div>
+            </div>`
+};
+
+/* FLUJO */
+new function () {
+    loadFirstCard();
+    loadMenuFromData();
+    loadRaffles();
 }();
